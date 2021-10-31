@@ -36,10 +36,10 @@ To connect to GCP, to start I will:
 
 - Add the docker image to Google's Container Registry
   - Using the Cloud Shell on https://console.cloud.google.com/ , pull the Docker image to the VM (`docker pull amw8711/final-project-gui`)
-  - Using the Cloud Shell, tag the image for the Container Registry (`docker tag amw8711/final-project-gui us.gcr.io/cs-1660/final-project-gui)
+  - Using the Cloud Shell, tag the image for the Container Registry (`docker tag amw8711/final-project-gui us.gcr.io/cs-1660/final-project-gui`)
   - Using the Cloud Shell, push the tagged image to the Container Registry (`docker push us.gcr.io/cs-1660/final-project-gui`)
 - Create a cluster for the frontend. Done through the GCP website: Left Navigation Menu > Kubernetes Engine > Clusters. Create and configure a GKE standard cluster.
 - Deploy the image to the cluster. Done through the GCP website: Clusters > Deploy. Edit the container with an Existing container image with the one pushed to the registry.
-- Expose the image to make it externally available both to each other and to the public. Done through the GCP website: Kubernetes Engine > Workloads. Click on the deployment's name. Under Actions > Expose to create a Load Balancer or other service. This provides the external IP needed to access the application.
+- Expose the image to make it externally available for the backend and to the public. Done through the GCP website: Kubernetes Engine > Workloads. Click on the deployment's name. Under Actions > Expose to create a Load Balancer or other service. This provides the external IP needed to access the application.
 
 Further steps will be needed to make the exposed app work with the backend.
