@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+	<div class="m-2 p-2 gap-2"> </div>
+
+	{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	<ul class=flashes>
+		{% for message in messages %}
+		<li>{{ message }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	{% endwith %}
+
+	<div class="mt-3 mb-3">
+		<h2>
+			Engine was loaded & <br> Inverted indicies were constructed successfully!
+		</h2>
+	</div>
+
+	<div class="m-3 p-3 gap-3"> </div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-6" align="center">
+				<a href="search" class="btn btn-lg btn-primary" role="button">Search for Term</a>
+			</div>
+			<div class="col-6" align="center">
+				<a href="top-n" class="btn btn-lg btn-primary" role="button">Top-N</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="m-3 p-3 gap-3"> </div>
+</div>
+
+{% endblock %}

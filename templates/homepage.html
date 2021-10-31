@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+	<div class="m-2 p-2 gap-2"> </div>
+
+	{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	<ul class=flashes>
+		{% for message in messages %}
+		<li>{{ message }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	{% endwith %}
+
+	<div class="mt-3 mb-3">
+		<h2>
+			Load Search Engine
+		</h2>
+	</div>
+
+	<div class="m-3 p-3 gap-3"> </div>
+
+	<form action="" method="post">
+		<div class="m-3">
+			<div class="row gx-5">
+				<label for="formFileMultiple" class="form-label">Select the file(s) to construct your engine
+					with</label>
+				<div class="col">
+					<input name="files" class="form-control" type="file" id="formFileMultiple" multiple>
+				</div>
+				<!--
+					<div class="col-md-auto">
+						<input class="btn btn-primary" type="submit" value="Construct Inverted Indices">
+					</div>
+				-->
+			</div>
+		</div>
+
+		<div class="m-3 p-3 gap-3"> </div>
+
+		<div id="fileListContainer" class="m-3 gap-3">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<h3 id="fileListHeader"></h3>
+					</div>
+					<div class="col me-auto float-end text-end">
+						<input id="loadEngineButton" class="me-auto float-end d-none btn btn-primary text-end"
+							type="submit" value="Load Engine">
+					</div>
+				</div>
+			</div>
+
+			<ul id="fileList">
+
+			</ul>
+		</div>
+	</form>
+
+	<div class="m-3 p-3 gap-3"> </div>
+
+	<script>
+		const inputElement = document.getElementById("formFileMultiple");
+		inputElement.addEventListener("change", handleFiles, false);
+		function handleFiles() {
+			var fileListElement = document.getElementById("fileList");
+			while (fileListElement.lastElementChild) {
+				fileListElement.removeChild(myNode.lastElementChild);
+			}
+			const fileList = this.files; /* now you can work with the file list */
+
+			for (var i = 0; i < fileList.length; i++) {
+				var li = document.createElement("li");
+				li.textContent = fileList[i].name;
+				fileListElement.appendChild(li);
+			}
+
+			var fileListHeader = document.getElementById("fileListHeader");
+			var loadEngineButton = document.getElementById("loadEngineButton");
+			if (fileList.length == 1) {
+				fileListHeader.textContent = "Search Engine File";
+				loadEngineButton.classList.remove("d-none");
+			} else if (fileList.length > 1) {
+				fileListHeader.textContent = "Search Engine Files";
+				loadEngineButton.classList.remove("d-none");
+			}
+
+			var bsButton = new bootstrap.Button(document.getElementById('fileListContainer'))
+		}
+	</script>
+</div>
+
+{% endblock %}
