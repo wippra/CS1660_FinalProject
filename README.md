@@ -15,7 +15,7 @@ The frontend GUI is a Python Flask App that should be accessible with a web brow
 To download the frontend GUI application, run 
 
 ```
-docker pull amw8711/final-project
+docker pull amw8711/final_project
 ```
 
 Next, to run the application, run 
