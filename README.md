@@ -21,7 +21,7 @@ docker pull amw8711/final_project
 Next, to run the application, run 
 
 ```
-docker run -v <LOCAL_DIRECTORY_OF_CONFIG>:config --env GCP_CONFIG=/config/<NAME_OF_GCP_CONFIG_JSON> --env GOOGLE_APPLICATION_CREDENTIALS=/config/<NAME_OF_GCP_AUTH_JSON> -d -p 5000:5000 amw8711/final_project
+docker run -v <LOCAL_DIRECTORY_OF_CONFIG>:/config --env GCP_CONFIG=/config/<NAME_OF_GCP_CONFIG_JSON> --env GOOGLE_APPLICATION_CREDENTIALS=/config/<NAME_OF_GCP_AUTH_JSON> -d -p 5000:5000 amw8711/final_project
 ```
 
 ### Explanation
