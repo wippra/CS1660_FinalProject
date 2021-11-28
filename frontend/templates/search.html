@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+	<div class="m-2 p-2 gap-2"> </div>
+
+	{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	<ul class=flashes>
+		{% for message in messages %}
+		<li>{{ message }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	{% endwith %}
+
+	<div class="mt-3 mb-3">
+		<h2>
+			Search
+		</h2>
+	</div>
+
+	<div class="mt-3 mb-3">
+		<div class="row">
+			<div class="col-12 d-flex justify-content-end">
+				<a href="engine" class="d-flex justify-content-end text-right h4 link-primary">Return to Engine Homepage</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="m-3 p-3 gap-3"> </div>
+
+	<form id="form" action="" method="post">
+		<div class="m-3 gap-3">
+			<div class="row justify-content-center">
+				<div class="col-auto">
+					<label class="visually-hidden" for="autoSizingInput">Search Term</label>
+					<input name="term" type="text" class="form-control form-control-lg" id="autoSizingInput"
+						placeholder="KING" value="KING">
+				</div>
+			</div>
+		</div>
+		<div class="m-3 gap-3">
+			<div class="row justify-content-center">
+				<div class="col-auto">
+					<input onclick="submitDefault()" id="loadEngineButton" class="btn btn-lg btn-primary" type="submit" value="Search">
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div class="m-3 p-3 gap-3"> </div>
+</div>
+
+<script>
+	var msg_count = 0;
+	var timer;
+	var msg_time = 12500;
+
+	function submitDefault() {
+		timer = setInterval(updateMessage, msg_time);
+		var new_button = document.createElement('button');
+		var button_spinner = document.createElement('span');
+		var old_button = document.getElementById("loadEngineButton");
+		document.getElementById("form").submit();
+		button_spinner.classList = "spinner-border spinner-border-sm me-2";
+		new_button.innerText = old_button.value;
+		new_button.insertBefore(button_spinner, new_button.firstChild);
+		for (index = 0; index < old_button.attributes.length; index++) {
+			new_button.attributes.setNamedItem(old_button.attributes[index].cloneNode());
+		}
+		new_button.classList.add('disabled');
+		old_button.parentNode.replaceChild(new_button, old_button);
+	}
+
+	function updateMessage() {
+		let msgs = ['Submitting Job', 'Mapping', 'Reducing', 'Receiving Output', 'Formatting Output']
+		let btn = document.getElementById("loadEngineButton");
+		if(msg_count < msgs.length) {
+			btn.lastChild.textContent = msgs[msg_count] + "...";
+			msg_count++;
+		} else {
+			clearInterval(timer);
+		}			
+	}	
+</script>
+
+{% endblock %}

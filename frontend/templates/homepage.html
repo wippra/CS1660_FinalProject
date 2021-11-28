@@ -23,7 +23,7 @@
 
 	<div class="m-3 p-3 gap-3"> </div>
 
-	<form action="" method="post">
+	<form id="form" action="" method="post" enctype="multipart/form-data">
 		<div class="m-3">
 			<div class="row gx-5">
 				<label for="formFileMultiple" class="form-label">Select the file(s) to construct your engine
@@ -31,11 +31,13 @@
 				<div class="col">
 					<input name="files" class="form-control" type="file" id="formFileMultiple" multiple>
 				</div>
-				<!--
-					<div class="col-md-auto">
-						<input class="btn btn-primary" type="submit" value="Construct Inverted Indices">
-					</div>
-				-->
+				<div class="col-md-auto">
+					<a> or </a>
+				</div>
+				<div class="col-md-auto">
+					<input id="loadDefaultEngineButton" class="me-auto float-end btn btn-primary text-end"
+					onclick="submitDefault(true)" type="submit" value="Load Engine with Default Input Files">
+				</div>
 			</div>
 		</div>
 
@@ -47,9 +49,9 @@
 					<div class="col">
 						<h3 id="fileListHeader"></h3>
 					</div>
-					<div class="col me-auto float-end text-end">
+					<div class="col me-auto float-end text-end pe-0">
 						<input id="loadEngineButton" class="me-auto float-end d-none btn btn-primary text-end"
-							type="submit" value="Load Engine">
+						onclick="submitDefault(false)" type="submit" value="Load Engine">
 					</div>
 				</div>
 			</div>
@@ -65,6 +67,54 @@
 	<script>
 		const inputElement = document.getElementById("formFileMultiple");
 		inputElement.addEventListener("change", handleFiles, false);
+
+		var msg_count = 0;
+		var timer;
+		var msg_time = 12500;
+
+		function submitDefault(def) {
+			var old_button;
+			if(def) {
+				old_button = document.getElementById("loadDefaultEngineButton");
+				document.getElementById("loadEngineButton").classList.add('disabled');
+				timer = setInterval(updateMessage, msg_time, true);
+			} else {
+				old_button = document.getElementById("loadEngineButton");
+				document.getElementById("loadDefaultEngineButton").classList.add('disabled');
+				timer = setInterval(updateMessage, msg_time, false);
+			}
+			document.getElementById("form").submit();
+			var new_button = document.createElement('button');
+			var button_spinner = document.createElement('span');
+			button_spinner.classList = "spinner-border spinner-border-sm me-2";
+			new_button.innerText = old_button.value;
+			new_button.insertBefore(button_spinner, new_button.firstChild);
+			for (index = 0; index < old_button.attributes.length; index++) {
+				new_button.attributes.setNamedItem(old_button.attributes[index].cloneNode());
+			}
+			new_button.classList.add('disabled');
+			old_button.parentNode.replaceChild(new_button, old_button);
+		}
+
+		function updateMessage(def) {
+
+			let msgs = ['Submitting Job', 'Mapping', 'Reducing', 'Receiving Output', 'Formatting Output']
+
+			var btn;
+			if(def) {
+				btn = document.getElementById("loadDefaultEngineButton");
+			} else {
+				btn = document.getElementById("loadEngineButton");
+			}
+			
+			if(msg_count < msgs.length) {
+				btn.lastChild.textContent = msgs[msg_count] + "...";
+				msg_count++;
+			} else {
+				clearInterval(timer);
+			}			
+		}
+
 		function handleFiles() {
 			var fileListElement = document.getElementById("fileList");
 			while (fileListElement.lastElementChild) {
